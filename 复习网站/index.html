@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142e2b">
+  <meta name="description" content="C语言系统级编程：7课知识点、原课件页码与分层交互题库。离线可用。">
+  <title>C 语言系统级编程 · 复习手册</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <aside class="sidebar" aria-label="主导航">
+    <a class="brand" href="#overview"><span class="brand-mark">C<span>_</span></span><span>系统级编程<br><small>复习手册 / STUDY GUIDE</small></span></a>
+    <div class="nav-caption">学习工作台</div>
+    <nav id="navigation">
+      <a data-view="overview" href="#overview"><span>⌂</span>复习总览</a>
+      <a data-view="knowledge" href="#knowledge"><span>≡</span>知识点手册</a>
+      <a data-view="practice" href="#practice"><span>✎</span>练习与组卷</a>
+      <a data-view="exams" href="#exams"><span>❖</span>往年题与模拟卷</a>
+      <a data-view="sources" href="#sources"><span>▤</span>课件页码索引</a>
+      <a data-view="progress" href="#progress"><span>◷</span>我的复习记录</a>
+    </nav>
+    <div class="nav-caption">按课复习</div>
+    <div id="lesson-nav" class="lesson-nav"></div>
+    <div class="sidebar-bottom"><span class="status-dot"></span>离线可用 · 进度保存在本机<br><a href="../C语言系统级编程知识点汇总.md" download>↓ 下载 Markdown 手册</a></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <button class="menu-button" id="menu-toggle" aria-label="展开导航" aria-expanded="false">☰</button>
+      <div class="breadcrumb">C 语言系统级编程 <span>/</span> <strong id="view-name">复习总览</strong></div>
+      <div class="top-actions"><span class="offline-badge">LOCAL EDITION</span><a href="#practice" class="button small primary">开始练习 ↗</a></div>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <footer>按原 PDF 的物理页码引用 · 规范与平台差异见各知识点说明 · 学习记录仅保存在当前浏览器</footer>
+  </div>
+  <div id="source-backdrop" class="backdrop" hidden></div>
+  <aside id="source-drawer" class="source-drawer" role="dialog" aria-modal="true" aria-labelledby="source-title" hidden></aside>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <noscript><p>请启用 JavaScript 以查看手册和交互题库。也可直接阅读同目录上级的 Markdown 汇总。</p></noscript>
+</body>
+</html>
