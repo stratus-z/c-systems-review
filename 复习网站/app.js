@@ -211,7 +211,7 @@
     main.innerHTML = heading(kicker, title, description, topActions) +
       `<div class="practice-top"><span class="counter">QUESTION ${String(a.idx+1).padStart(2,'0')} / ${a.ids.length}</span><span class="micro muted">已提交 ${answered} / ${a.ids.length} · <span id="quiz-time">${elapsedFor(a)}</span> 小时:分钟</span></div><div class="progress-bar"><i style="width:${100*answered/a.ids.length}%"></i></div><div class="quiz-layout"><section class="panel question-panel"><div class="row">${badgeFn(q)}${self?'<span class="pill orange">按要点自评</span>':''}</div><div class="question-title"><div class="article">${md(q.prompt)}</div></div>${self?`<label for="answer-draft" class="micro muted">填写你的${q.type==='code'?'分析或代码':'答案'}，然后对照参考答案评分。</label><textarea id="answer-draft" class="answer-area" placeholder="在这里写下你的思路…" ${submitted?'readonly':''}>${escape(r.draft)}</textarea>`:`<div class="options" role="group" aria-label="答案选项">${q.options.map((text,i)=>`<label class="option ${r.choice.includes(i)?'selected':''} ${show&&q.answer.includes(i)?'correct':''} ${show&&r.choice.includes(i)&&!q.answer.includes(i)?'incorrect':''}"><input type="${q.type==='multiple'?'checkbox':'radio'}" name="answer-choice" value="${i}" ${r.choice.includes(i)?'checked':''} ${submitted?'disabled':''}><span class="option-letter">${String.fromCharCode(65+i)}</span><span class="option-text article">${md(text)}</span></label>`).join('')}</div>`}
       ${show?`<div class="feedback ${r.grade===false?'bad':''}"><h3>${self?(r.grade===null?'参考答案 · 请完成自评':r.grade?'自评：已掌握':'自评：需要复习'):(r.grade?'✓ 回答正确':r.choice.length?'需要再复习一下':'未作答')} ${!self?`<span class="micro muted">正确答案：${q.answer.map(i=>String.fromCharCode(65+i)).join('、')}</span>`:''}</h3>${self?`<div class="article">${md(q.answer)}</div>${q.rubric?.length?`<h4>评分要点</h4><ul class="checklist article">${q.rubric.map(renderRubricItem).join('')}</ul>`:''}`:''}<div class="article">${md(q.explanation)}</div>${self&&r.grade===null?`<div class="row"><button class="button small primary" data-action="${actions.selfGrade}"${attr} data-grade="yes">符合要点 · 已掌握</button><button class="button small" data-action="${actions.selfGrade}"${attr} data-grade="no">未符合要点 · 加入错题</button></div>`:''}${(q.refs||[]).length?`<div class="source-strip"><div class="row">${sourceButtons(q.refs)}</div></div>`:''}</div>`:''}
-      <div class="quiz-actions"><button class="button" data-action="${actions.prev}"${attr} ${a.idx===0?'disabled':''}>← 上一题</button>${!submitted?`<button class="button primary" data-action="${actions.submit}"${attr}>${self?(a.style==='exam'?'保存作答':'查看参考答案'):'提交答案'}</button>`:a.style==='exam'&&!a.finished?`<button class="button" data-action="${actions.edit}"${attr}>修改作答</button>`:''}<button class="button ${submitted?'primary':''}" data-action="${actions.next}"${attr} ${a.idx===a.ids.length-1?'disabled':''}>下一题 →</button>${!a.finished?`<button class="button small" data-action="${actions.finish}"${attr}>结束并交卷</button>`:''}</div></section><aside class="quiz-side"><section class="panel"><h3>答题卡</h3>${paletteHtml}<p class="micro muted" style="margin:14px 0 0">绿色：已掌握<br>红色：需复习<br>米色：已提交 / 待自评</p></section><section class="panel"><h3>关联知识点</h3>${relTopics.length?relTopics.map(id=>`<a class="list-link" href="${href({lesson:topics.get(id).lesson,topic:id})}">${escape(topics.get(id).title)} <span>↗</span></a>`).join(''):'<p class="micro muted">无关联知识点</p>'}${!a.finished&&a.style==='exam'?'<p class="micro muted" style="margin-top:12px">解析在交卷后显示。可先标记作答，再统一检查。</p>':((q.refs||[]).length?`<div style="margin-top:14px" class="row">${sourceButtons(q.refs)}</div>`:'')}</section></aside></div>`;
+      <div class="quiz-actions"><button class="button" data-action="${actions.prev}"${attr} ${a.idx===0?'disabled':''}>← 上一题</button>${!submitted?`<button class="button primary" data-action="${actions.submit}"${attr}>${self?(a.style==='exam'?'保存作答':'查看参考答案'):'提交答案'}</button>`:a.style==='exam'&&!a.finished?`<button class="button" data-action="${actions.edit}"${attr}>修改作答</button>`:''}<button class="button ${submitted?'primary':''}" data-action="${actions.next}"${attr} ${a.idx===a.ids.length-1?'disabled':''} title="${!a.finished?'已作答时点击将自动提交本题并进入下一题':''}">下一题 →</button>${!a.finished?`<button class="button small" data-action="${actions.finish}"${attr}>结束并交卷</button>`:''}</div>${!a.finished?`<p class="micro muted" style="margin:12px 0 0">${a.style==='exam'?'提示：选好选项或填写作答后，直接点击「下一题」或「结束并交卷」会自动保存提交本题，交卷后统一显示解析。':`提示：选好选项或填写作答后，直接点击「下一题」会自动提交本题并进入下一题；点击「${self?'查看参考答案':'提交答案'}」可在当前页立刻查看解析。`}</p>`:''}</section><aside class="quiz-side"><section class="panel"><h3>答题卡</h3>${paletteHtml}<p class="micro muted" style="margin:14px 0 0">绿色：已掌握<br>红色：需复习<br>米色：已提交 / 待自评</p></section><section class="panel"><h3>关联知识点</h3>${relTopics.length?relTopics.map(id=>`<a class="list-link" href="${href({lesson:topics.get(id).lesson,topic:id})}">${escape(topics.get(id).title)} <span>↗</span></a>`).join(''):'<p class="micro muted">无关联知识点</p>'}${!a.finished&&a.style==='exam'?'<p class="micro muted" style="margin-top:12px">解析在交卷后显示。可先标记作答，再统一检查。</p>':((q.refs||[]).length?`<div style="margin-top:14px" class="row">${sourceButtons(q.refs)}</div>`:'')}</section></aside></div>`;
     document.querySelectorAll('[name="answer-choice"]').forEach(el=>el.addEventListener('change',()=>{r.choice=[...document.querySelectorAll('[name="answer-choice"]:checked')].map(el=>Number(el.value));save();document.querySelectorAll('.option').forEach(label=>label.classList.toggle('selected',label.querySelector('input').checked));}));
     const draft=document.querySelector('#answer-draft');if(draft) draft.addEventListener('input',()=>{r.draft=draft.value;save();});
     clearInterval(quizTimer);if(!a.finished) quizTimer=setInterval(()=>{const el=document.querySelector('#quiz-time');if(el)el.textContent=elapsedFor(a);},30000);
@@ -229,6 +229,29 @@
       actions:{prev:'quiz-prev',submit:'submit-answer',edit:'edit-answer',next:'quiz-next',finish:'finish',selfGrade:'self-grade',results:'results'}
     });
   }
+  function hasPendingAnswer(q, r) {
+    if (!r || r.submitted) return false;
+    return Array.isArray(q.answer) ? r.choice.length > 0 : !!r.draft.trim();
+  }
+  function autoSubmitSessionAnswer(a, qMap, recordMap, label) {
+    if (!a || a.finished) return false;
+    const q = qMap.get(a.ids[a.idx]), r = answerIn(a, q.id);
+    if (!hasPendingAnswer(q, r)) return false;
+    if (Array.isArray(q.answer)) {
+      r.submitted = true;
+      if (a.style === 'learn') {
+        r.grade = correct(q, r.choice);
+        r.shown = true;
+        recordTo(recordMap, q, r);
+        toast(r.grade ? `已自动提交第 ${label} 题：✓ 回答正确` : `已自动提交第 ${label} 题：需要复习（正确答案：${q.answer.map(i => String.fromCharCode(65 + i)).join('、')}）`);
+      }
+    } else {
+      r.submitted = true;
+      r.shown = a.style === 'learn';
+      if (a.style === 'learn') toast(`已自动提交第 ${label} 题作答，可点答题卡回看参考答案自评`);
+    }
+    return true;
+  }
   function submitSessionAnswer(a, qMap, recordMap, renderFn) {
     const q=qMap.get(a.ids[a.idx]), r=answerIn(a, q.id);
     if(Array.isArray(q.answer)){if(!r.choice.length){toast('请选择答案后提交。');return;}r.submitted=true;if(a.style==='learn'){r.grade=correct(q,r.choice);r.shown=true;recordTo(recordMap,q,r);}}
@@ -236,10 +259,10 @@
     save(); renderFn();
   }
   function finishSession(a, qMap, recordMap, doneFn) {
-    const n=a.ids.filter(id=>!a.answers[id]?.submitted).length;
-    if(n&&!confirm(`还有 ${n} 道题未提交。交卷后客观题未作答计为错误，是否交卷？`)) return;
+    const n=a.ids.filter(id=>{const q=qMap.get(id),r=a.answers[id];return !r?.submitted&&!hasPendingAnswer(q,r);}).length;
+    if(n&&!confirm(`还有 ${n} 道题未作答。交卷后客观题未作答计为错误，是否交卷？`)) return;
     a.finished=true;
-    for(const id of a.ids){const q=qMap.get(id),r=answerIn(a,id);r.shown=true;if(Array.isArray(q.answer)){r.grade=r.submitted&&correct(q,r.choice);r.submitted=true;recordTo(recordMap,q,r);}}
+    for(const id of a.ids){const q=qMap.get(id),r=answerIn(a,id);if(hasPendingAnswer(q,r))r.submitted=true;r.shown=true;if(Array.isArray(q.answer)){r.grade=r.submitted&&correct(q,r.choice);r.submitted=true;recordTo(recordMap,q,r);}}
     save(); doneFn();
   }
   function submitAnswer() {submitSessionAnswer(db.active, questions, db.records, ()=>quiz());}
@@ -331,7 +354,7 @@
     case 'submit-answer':submitAnswer();break;
     case 'edit-answer':answerFor(a.ids[a.idx]).submitted=false;save();quiz();break;
     case 'quiz-prev':a.idx=Math.max(0,a.idx-1);save();quiz();break;
-    case 'quiz-next':a.idx=Math.min(a.ids.length-1,a.idx+1);save();quiz();break;
+    case 'quiz-next':{if(!a.finished)autoSubmitSessionAnswer(a,questions,db.records,a.idx+1);a.idx=Math.min(a.ids.length-1,a.idx+1);save();quiz();break;}
     case 'quiz-jump':a.idx=Number(b.dataset.index);save();quiz();break;
     case 'review-question':a.idx=Number(b.dataset.index);save();quiz(true);break;
     case 'results':result();break;
@@ -343,7 +366,7 @@
     case 'exam-submit':examSubmitAnswer(b.dataset.exam);break;
     case 'exam-edit':{const ex=exams.get(b.dataset.exam),ea=ex&&db.examAttempts[ex.id];if(!ea)break;answerIn(ea,ea.ids[ea.idx]).submitted=false;save();examQuiz(ex);break;}
     case 'exam-prev':{const ex=exams.get(b.dataset.exam),ea=ex&&db.examAttempts[ex.id];if(!ea)break;ea.idx=Math.max(0,ea.idx-1);save();examQuiz(ex);break;}
-    case 'exam-next':{const ex=exams.get(b.dataset.exam),ea=ex&&db.examAttempts[ex.id];if(!ea)break;ea.idx=Math.min(ea.ids.length-1,ea.idx+1);save();examQuiz(ex);break;}
+    case 'exam-next':{const ex=exams.get(b.dataset.exam),ea=ex&&db.examAttempts[ex.id];if(!ea)break;if(!ea.finished){const curQ=examQuestions.get(ea.ids[ea.idx]);autoSubmitSessionAnswer(ea,examQuestions,db.examRecords,curQ?curQ.number:ea.idx+1);}ea.idx=Math.min(ea.ids.length-1,ea.idx+1);save();examQuiz(ex);break;}
     case 'exam-jump':case 'exam-review':{const ex=exams.get(b.dataset.exam),ea=ex&&db.examAttempts[ex.id];if(!ea)break;ea.idx=Math.min(Math.max(Number(b.dataset.index)||0,0),ea.ids.length-1);save();examQuiz(ex);break;}
     case 'exam-results':{const ex=exams.get(b.dataset.exam);if(ex)examResult(ex);break;}
     case 'exam-self-grade':{const ex=exams.get(b.dataset.exam),ea=ex&&db.examAttempts[ex.id];if(!ea)break;const q=examQuestions.get(ea.ids[ea.idx]),r=answerIn(ea,q.id);r.grade=b.dataset.grade==='yes';recordTo(db.examRecords,q,r);save();examQuiz(ex);break;}
